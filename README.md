@@ -1,3 +1,4 @@
-# canvas-site
+# The Canvas Web
 
-[Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/wh4ky/canvas-site)
+A website written fully in a HTML canvas.
+
