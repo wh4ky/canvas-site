@@ -38,15 +38,25 @@ export class Page {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.reload();
+    console.log("Triggered Reload.");
   }
 
-  drawLine(frompoint: Vector2D, topoint: Vector2D, thickness?: number, style?: string): void {
+  getWidthPercentage(percentage: number): number {
+    return this.canvas.width * (percentage / 100);
+  }
+
+  getHeightPercentage(percentage: number): number {
+    return this.canvas.height * (percentage / 100);
+  }
+
+  drawLine(fromPoint: Vector2D, toPoint: Vector2D, thickness?: number, style?: string): void {
     if (thickness) { this.context.lineWidth = thickness; }
     if (style) { this.context.strokeStyle = style; } else { this.context.strokeStyle = "black"; }
     this.context.beginPath();
-    this.context.moveTo(frompoint.x, frompoint.y);
-    this.context.lineTo(topoint.x, topoint.y);
+    this.context.moveTo(fromPoint.x, fromPoint.y);
+    this.context.lineTo(toPoint.x, toPoint.y);
     this.context.stroke();
-  };
+    console.log("Made line with:\nFrom: x:", fromPoint.x, " y:", fromPoint.y, "\nTo x:", toPoint.x, " y:", toPoint.y);
+  }
 };
 
