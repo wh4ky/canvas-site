@@ -13,6 +13,7 @@ export class Page {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   // glcontext: WebGLRenderingContext;
+  em: number = Number(window.getComputedStyle(document.body).getPropertyValue('font-size').match(/\d+/)![0]) as number;
   reload: () => void = () => { };
 
   constructor() {
@@ -41,11 +42,11 @@ export class Page {
     console.log("Triggered Reload.");
   }
 
-  getWidthPercentage(percentage: number): number {
+  vw(percentage: number): number {
     return this.canvas.width * (percentage / 100);
   }
 
-  getHeightPercentage(percentage: number): number {
+  vh(percentage: number): number {
     return this.canvas.height * (percentage / 100);
   }
 
