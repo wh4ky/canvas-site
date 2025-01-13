@@ -1,3 +1,29 @@
+const WasmImports = {
+  web: {
+    log(ptr: any, len: string) {
+      const message = decodeString(ptr, len);
+      console.log(message);
+      return;
+    },
+  },
+};
+
+const decodeString: Function = (ptr: any, len: number) => {
+  const slice = new Uint8Array(
+    wasmExports.memory.buffer,
+    ptr,
+    len
+  );
+  return new TextDecoder().decode(slice);
+}
+
+console.log("LOADING WASM MODULES");
+const obj = await WebAssembly.instantiateStreaming(await fetch("/canvas-site/src/canvas.wasm"), WasmImports);
+const wasmExports: any = obj.instance.exports;
+console.log("WASM MODULES LOADED");
+
+wasmExports.add(1, 5);
+
 export type Vector2D = {
   x: number,
   y: number
