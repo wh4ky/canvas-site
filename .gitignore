@@ -12,8 +12,11 @@ dist
 dist-ssr
 *.local
 
-# Wasm
+# Wasm / zig
 *.wasm*
+zig-out
+.zig-cache
+public/bin
 
 # Editor directories and files
 .vscode/*

@@ -8,28 +8,27 @@ const WasmImports = {
   },
 };
 
-const decodeString: Function = (ptr: any, len: number) => {
-  const slice = new Uint8Array(
-    wasmExports.memory.buffer,
-    ptr,
-    len
-  );
+const decodeString: Function = (ptr: number, len: number) => {
+  const slice = new Uint8Array(wasmExports.memory.buffer, ptr, len);
   return new TextDecoder().decode(slice);
 }
 
+const decodeNum: Function = (ptr: number) => {
+  return new Int32Array(wasmExports.memory.buffer)[ptr];
+}
+
 console.log("LOADING WASM MODULES");
-const obj = await WebAssembly.instantiateStreaming(await fetch("/canvas-site/src/canvas.wasm"), WasmImports);
+const obj = await WebAssembly.instantiateStreaming(await fetch("bin/canvas.wasm"), WasmImports);
 const wasmExports: any = obj.instance.exports;
 console.log("WASM MODULES LOADED");
 
-wasmExports.add(1, 5);
 
-export type Vector2D = {
+export type Vector2D = { // TODO:Delete in favour of wasm.
   x: number,
   y: number
 };
 
-export type Vector3D = {
+export type Vector3D = { // TODO:Delete in favour of wasm.
   x: number,
   y: number,
   z: number
@@ -44,14 +43,10 @@ export class Page {
 
   constructor() {
     this.canvas = document.createElement('canvas') as HTMLCanvasElement;
-    if (!this.canvas) {
-      throw new Error("Can't create canvas.");
-    }
+    if (!this.canvas) { throw new Error("Can't create canvas."); }
 
     this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-    if (!this.context) {
-      throw new Error("Can't create context.");
-    }
+    if (!this.context) { throw new Error("Can't create context."); }
 
     this.resizeCanvas();
 
